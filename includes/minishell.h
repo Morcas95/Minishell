@@ -35,6 +35,7 @@ typedef struct s_token
 void	handle_sigint(int sig);
 void	setup_signals(void);
 
+//* Lexer
 t_token *lexer(char *input);
 int skip_spaces(char *str, int i);
 int is_operator(char c);
