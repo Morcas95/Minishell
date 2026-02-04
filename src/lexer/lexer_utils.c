@@ -61,16 +61,16 @@ t_token *extract_token(char *str, int *i)
     {
         if (str[*i + 1] == '>')
         {
-            token->type = TOKEN_HEREDOC;
+            token->type = TOKEN_REDIR_APPEND;
             token->value = ">>";
             *i = *i + 2;
         }
         else
         {
-            token->type = TOKEN_REDIR_IN;
-            token->value = '<';
+            token->type = TOKEN_REDIR_OUT;
+            token->value = '>';
             (*i)++;
         }
     }
-    //* Cambiar el ultimo else if
+    return (token);
 }
