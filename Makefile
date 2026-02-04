@@ -3,7 +3,9 @@ CFLAGS = -Wall -Wextra -Werror
 NAME = minishell
 INCLUDE = -I./includes
 SRC =	./src/main.c \
-		./src/signals.c
+		./src/signals/signals.c \
+		./src/lexer/lexer.c \
+		./src/lexer/lexer_utils.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
