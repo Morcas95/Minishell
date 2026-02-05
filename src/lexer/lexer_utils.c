@@ -27,19 +27,28 @@ int is_operator(char c)
         return (1);
     return (0);
 }
-
+/*
+ * Extrae el siguiente token del string empezando por el índice i.
+ * Actualiza i a la posición después del token.
+ * Retorna: el token, o NULL en caso de error.
+ * 
+ * Extract next token from string starting at index i.
+ * Updates i to position after the token.
+ * Returns: the token, or NULL on error.
+ */
 t_token *extract_token(char *str, int *i)
 {
     t_token *token;
 
     token = malloc(sizeof(t_token));
-    if(!token)
+    if (!token)
         return (NULL);
     token->next = NULL;
+    token->value = NULL;  // Por defecto NULL
+    
     if (str[*i] == '|')
     {
         token->type = TOKEN_PIPE;
-        token->value = NULL;
         (*i)++;
     }
     else if (str[*i] == '<')
@@ -47,13 +56,11 @@ t_token *extract_token(char *str, int *i)
         if (str[*i + 1] == '<')
         {
             token->type = TOKEN_HEREDOC;
-            token->value = "<<";
-            *i = *i + 2;
+            (*i) += 2;
         }
         else
         {
             token->type = TOKEN_REDIR_IN;
-            token->value = '<';
             (*i)++;
         }
     }
@@ -62,15 +69,30 @@ t_token *extract_token(char *str, int *i)
         if (str[*i + 1] == '>')
         {
             token->type = TOKEN_REDIR_APPEND;
-            token->value = ">>";
-            *i = *i + 2;
+            (*i) += 2;
         }
         else
         {
             token->type = TOKEN_REDIR_OUT;
-            token->value = '>';
             (*i)++;
         }
     }
     return (token);
+}
+
+/*
+ * Extrae una palabra (TOKEN_WORD) del string.
+ * Gestiona las comillas y se para en los espacios u operadores.
+ * Retorna: el string extraído, o NULL en caso de error.
+ * 
+ * Extract a word (TOKEN_WORD) from string.
+ * Handles quotes and stops at spaces or operators.
+ * Returns: the extracted string, or NULL on error.
+ */
+char *extract_word(char *str, int *i)
+{
+    // TODO: implement
+    (void)str;
+    (void)i;
+    return (NULL);
 }
