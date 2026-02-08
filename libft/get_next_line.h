@@ -1,0 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maalonso <maalonso@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/28 20:09:31 by adriescr          #+#    #+#             */
+/*   Updated: 2025/06/28 13:45:25 by maalonso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+
+# include <fcntl.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include "libft.h"
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
+
+char			*get_next_line(int fd);
+char			*ft_strjoin(char *s1, char *s2);
+size_t			ft_strlen(const char *str);
+char			*ft_strdup(const char *s);
+char			*ft_substr(char *s, unsigned int start, size_t len);
+char			*ft_strchr(const char *s, int c);
+
+#endif

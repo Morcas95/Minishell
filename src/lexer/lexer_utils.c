@@ -27,6 +27,7 @@ int is_operator(char c)
         return (1);
     return (0);
 }
+
 /*
  * Extrae el siguiente token del string empezando por el índice i.
  * Actualiza i a la posición después del token.
@@ -44,7 +45,7 @@ t_token *extract_token(char *str, int *i)
     if (!token)
         return (NULL);
     token->next = NULL;
-    token->value = NULL;  // Por defecto NULL
+    token->value = NULL;
     
     if (str[*i] == '|')
     {
@@ -77,22 +78,15 @@ t_token *extract_token(char *str, int *i)
             (*i)++;
         }
     }
+    else
+    {
+        token->type = TOKEN_WORD;
+        token->value = extract_word(str, i);
+        if (!token->value)
+        {
+            free(token);
+            return (NULL);
+        }
+    }
     return (token);
-}
-
-/*
- * Extrae una palabra (TOKEN_WORD) del string.
- * Gestiona las comillas y se para en los espacios u operadores.
- * Retorna: el string extraído, o NULL en caso de error.
- * 
- * Extract a word (TOKEN_WORD) from string.
- * Handles quotes and stops at spaces or operators.
- * Returns: the extracted string, or NULL on error.
- */
-char *extract_word(char *str, int *i)
-{
-    // TODO: implement
-    (void)str;
-    (void)i;
-    return (NULL);
 }
