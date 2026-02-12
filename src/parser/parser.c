@@ -1,5 +1,26 @@
 #include "minishell.h"
 
+
+int count_words_until_pipe(t_token *tokens)
+{
+    int count;
+    t_token *prev;
+    
+    count = 0;
+    prev = NULL;
+    while (tokens && tokens->type != TOKEN_PIPE)
+    {
+        if (tokens->type == TOKEN_WORD)
+        {
+            if (!prev || prev->type == TOKEN_WORD || prev->type == TOKEN_PIPE)
+                count++;
+        }
+        prev = tokens;
+        tokens = tokens->next;
+    }
+    return (count);
+}
+
 /*
  * Crea e inicializa una estructura vacía de comandos
  * Retorna: un puntero al nuevo comando, o NULL en caso de error.
@@ -14,11 +35,9 @@ t_cmd *create_cmd(void)
     cmd = malloc(sizeof(t_cmd));
     if (!cmd)
         return (NULL);
-    
     cmd->args = NULL;
     cmd->redirects = NULL;
     cmd->next = NULL;
-    
     return (cmd);
 }
 
@@ -36,11 +55,9 @@ t_redir *create_redir(t_redir_type type, char *file)
     redir = malloc(sizeof(t_redir));
     if (!redir)
         return (NULL);
-    
     redir->type = type;
     redir->file = file;
     redir->next = NULL;
-    
     return (redir);
 }
 
@@ -58,12 +75,9 @@ void add_redir_to_cmd(t_cmd *cmd, t_redir *new_redir)
         cmd->redirects = new_redir;
         return;
     }
-    
-    // Ir al final de la lista
     current = cmd->redirects;
     while (current->next)
         current = current->next;
-    
     current->next = new_redir;
 }
 
@@ -76,7 +90,7 @@ void add_redir_to_cmd(t_cmd *cmd, t_redir *new_redir)
  */
 t_cmd *parser(t_token *tokens)
 {
-    // TODO: implementar
+    //*: implementar
     (void)tokens;
     return (NULL);
 }
