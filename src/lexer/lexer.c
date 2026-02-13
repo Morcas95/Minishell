@@ -26,7 +26,7 @@ t_token *lexer(char *input)
             break;
         new_token = extract_token(input, &i);
         if (!new_token)
-            return (NULL);  // TODO: liberar lista si error
+            return (NULL);  //* liberar lista si error
         if (!head)
             head = new_token;
         else

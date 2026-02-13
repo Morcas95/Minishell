@@ -35,10 +35,10 @@ typedef struct s_token
 //* Redirection types
 typedef enum e_redir_type
 {
-    REDIR_IN,       // 
+    REDIR_IN,       // <
     REDIR_OUT,      // >
     REDIR_APPEND,   // >>
-    REDIR_HEREDOC   // 
+    REDIR_HEREDOC   // <<
 }   t_redir_type;
 
 //* Redirection structure
@@ -69,5 +69,15 @@ int     extract_plain(const char *s, int *i, char **out);
 int     extract_quoted(const char *s, int *i, char **out);
 int     skip_spaces(char *str, int i);
 int     is_operator(char c);
+
+//* Parser
+t_cmd *parser(t_token *tokens);
+t_cmd *create_cmd(void);
+t_cmd *parse_one_cmd(t_token *tokens);
+t_redir *create_redir(t_redir_type type, char *file);
+void add_redir_to_cmd(t_cmd *cmd, t_redir *new_redir);
+int count_words_until_pipe(t_token *tokens);
+char **fill_args(t_token *tokens);
+t_redir_type token_to_redir_type(t_token_type type);
 
 #endif
