@@ -78,6 +78,7 @@ t_redir *create_redir(t_redir_type type, char *file);
 void add_redir_to_cmd(t_cmd *cmd, t_redir *new_redir);
 int count_words_until_pipe(t_token *tokens);
 char **fill_args(t_token *tokens);
+t_token *next_pipe(t_token *tokens);
 t_redir_type token_to_redir_type(t_token_type type);
 
 #endif

@@ -10,6 +10,8 @@
 t_cmd *parse_one_cmd(t_token *tokens)
 {
     t_cmd *cmd;
+    t_redir_type type;
+    t_redir *redir;
     
     cmd = create_cmd();
     if (!cmd)
@@ -20,10 +22,11 @@ t_cmd *parse_one_cmd(t_token *tokens)
         if (tokens->type != TOKEN_WORD && tokens->type != TOKEN_PIPE)
         {
             if (!tokens->next)
-                return(NULL); //* Liberar cmd (free_cmd)
-            t_redir_type type;
-            t_redir *redir;
-
+                {
+                    free(cmd->args);
+                    free(cmd);
+                    return(NULL);
+                }
             type = token_to_redir_type(tokens->type);
             redir = create_redir(type, ft_strdup(tokens->next->value));
             add_redir_to_cmd(cmd, redir);

@@ -3,34 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maalonso <maalonso@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: morcas <morcas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:20:14 by adriescr          #+#    #+#             */
-/*   Updated: 2025/09/23 19:43:47 by maalonso         ###   ########.fr       */
+/*   Updated: 2026/02/16 16:53:07 by morcas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*ft_strdup(const char *s)
-{
-	char	*dup;
-	size_t	i;
-
-	if (!s)
-		return (NULL);
-	dup = malloc(ft_strlen(s) + 1);
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
 
 char	*ft_substr(char *s, unsigned int start, size_t len)
 {

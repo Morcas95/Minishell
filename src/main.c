@@ -9,31 +9,28 @@ int g_signal = 0;
 void process_input(char *input)
 {
     t_token *tokens;
-    t_token *current;
-    
+    t_cmd   *cmds;
+    t_cmd   *current;
+    int     i;
+
     if (!input || !*input)
-        return;
-    
-    // Tokenizar
+        return ;
     tokens = lexer(input);
     if (!tokens)
-    {
-        printf("Error: lexer failed\n");
         return ;
-    }
-    
-    // Imprimir tokens (debug)
-    printf("\n=== TOKENS ===\n");
-    current = tokens;
+    cmds = parser(tokens);
+    current = cmds;
     while (current)
     {
-        printf("Type: %d, Value: '%s'\n", 
-            current->type, current->value ? current->value : "NULL");
+        printf("=== CMD ===\n");
+        i = 0;
+        while (current->args && current->args[i])
+        {
+            printf("  arg[%d]: %s\n", i, current->args[i]);
+            i++;
+        }
         current = current->next;
     }
-    printf("==============\n\n");
-    
-    // TODO: liberar tokens
 }
 
 int main(int argc, char **argv, char **envp)

@@ -7,7 +7,10 @@ SRC =	./src/main.c \
 		./src/signals/signals.c \
 		./src/lexer/lexer.c \
 		./src/lexer/lexer_utils.c \
-		./src/lexer/lexer_words.c
+		./src/lexer/lexer_words.c \
+		./src/parser/parser.c \
+		./src/parser/parser_utils.c \
+		./src/parser/parser_cmd.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
@@ -30,7 +33,7 @@ REVERSE := \033[7m
 HIDDEN  := \033[8m
 PINK 	:= \033[35m
 
-VPATH = ./src:./src/signals:./src/lexer
+VPATH = ./src:./src/signals:./src/lexer:./src/parser
 
 all: $(NAME)
 
@@ -42,7 +45,7 @@ $(NAME): $(LIBFT) $(OBJ)
 	@echo "----------------------------------------$(RESET)"
 
 $(LIBFT):
-	@$(MAKE) -C ./libft
+	@$(MAKE) --no-print-directory -C ./libft
 
 
 $(OBJ_DIR)/%.o: %.c
@@ -51,11 +54,11 @@ $(OBJ_DIR)/%.o: %.c
 	@$(CC) $(CFLAGS) $(INCLUDE) -c -o $@ $^
 
 clean:
-	@$(MAKE) clean -C ./libft
+	@$(MAKE) --no-print-directory clean -C ./libft
 	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@$(MAKE) fclean -C ./libft
+	@$(MAKE) --no-print-directory fclean -C ./libft
 	@rm -f $(NAME)
 	@echo "$(BLUE) $(BOLD)$(NAME) $(RESET) Cleansed ✅"
 
