@@ -9,6 +9,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <sys/wait.h>
 # include "../libft/libft.h"
 
 extern int	g_signal;
@@ -80,5 +81,19 @@ int count_words_until_pipe(t_token *tokens);
 char **fill_args(t_token *tokens);
 t_token *next_pipe(t_token *tokens);
 t_redir_type token_to_redir_type(t_token_type type);
+
+//*Executor
+int execute(t_cmd *cmd, char **envp);
+int execute_simple(t_cmd *cmd, char **envp);
+int execute_pipeline(t_cmd *cmd, char **envp);
+
+//* Paths
+int	resolve_via_path(const char *cmd, char **envp, char **out_path);
+int	resolve_direct_path(const char *cmd, char **out_path);
+const char	*get_env_value(char **envp, const char *key);
+int	scan_dirs_tokens(char **dirs, size_t tokens, const char *cmd, char **out_path);
+int	build_and_check(char *dir, const char *cmd, char **out_path);
+char	*build_candidate(char *dir, const char *cmd);
+int	has_slash(const char *s);
 
 #endif

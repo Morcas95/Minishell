@@ -10,7 +10,10 @@ SRC =	./src/main.c \
 		./src/lexer/lexer_words.c \
 		./src/parser/parser.c \
 		./src/parser/parser_utils.c \
-		./src/parser/parser_cmd.c
+		./src/parser/parser_cmd.c \
+		./src/executor/executor.c \
+		./src/executor/path.c \
+		./src/executor/path_utils.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
@@ -33,7 +36,7 @@ REVERSE := \033[7m
 HIDDEN  := \033[8m
 PINK 	:= \033[35m
 
-VPATH = ./src:./src/signals:./src/lexer:./src/parser
+VPATH = ./src:./src/signals:./src/lexer:./src/parser:./src/executor
 
 all: $(NAME)
 

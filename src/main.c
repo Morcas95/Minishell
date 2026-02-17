@@ -6,31 +6,27 @@ int g_signal = 0;
  * Process the input line
  * Tokenizes and prints tokens for debugging
  */
-void process_input(char *input)
+void process_input(char *input, char **envp)
 {
     t_token *tokens;
     t_cmd   *cmds;
-    t_cmd   *current;
-    int     i;
+    int     exit_status;
 
     if (!input || !*input)
-        return ;
+        return;
+    
     tokens = lexer(input);
     if (!tokens)
-        return ;
+        return;
+    
     cmds = parser(tokens);
-    current = cmds;
-    while (current)
-    {
-        printf("=== CMD ===\n");
-        i = 0;
-        while (current->args && current->args[i])
-        {
-            printf("  arg[%d]: %s\n", i, current->args[i]);
-            i++;
-        }
-        current = current->next;
-    }
+    if (!cmds)
+        return;
+    
+    exit_status = execute(cmds, envp);
+    printf("Exit status: %d\n", exit_status);
+    
+    // TODO: liberar tokens y cmds
 }
 
 int main(int argc, char **argv, char **envp)
@@ -39,7 +35,6 @@ int main(int argc, char **argv, char **envp)
 
     (void)argc;
     (void)argv;
-    (void)envp;
 
     setup_signals();
     
@@ -50,7 +45,7 @@ int main(int argc, char **argv, char **envp)
             break;
         if (*prompt)
             add_history(prompt);
-        process_input(prompt);
+        process_input(prompt, envp);
         free(prompt);
     }
     return (0);
