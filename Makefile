@@ -13,7 +13,8 @@ SRC =	./src/main.c \
 		./src/parser/parser_cmd.c \
 		./src/executor/executor.c \
 		./src/executor/path.c \
-		./src/executor/path_utils.c
+		./src/executor/path_utils.c \
+		./src/executor/redirections.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))

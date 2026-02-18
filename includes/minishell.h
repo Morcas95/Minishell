@@ -96,4 +96,7 @@ int	build_and_check(char *dir, const char *cmd, char **out_path);
 char	*build_candidate(char *dir, const char *cmd);
 int	has_slash(const char *s);
 
+//* Redirections
+int apply_redirections(t_redir *redirects);
+
 #endif
