@@ -98,5 +98,6 @@ int	has_slash(const char *s);
 
 //* Redirections
 int apply_redirections(t_redir *redirects);
+char *read_heredoc(char *delimiter);
 
 #endif

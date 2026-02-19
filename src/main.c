@@ -14,19 +14,14 @@ void process_input(char *input, char **envp)
 
     if (!input || !*input)
         return;
-    
     tokens = lexer(input);
     if (!tokens)
         return;
-    
     cmds = parser(tokens);
     if (!cmds)
         return;
-    
     exit_status = execute(cmds, envp);
     printf("Exit status: %d\n", exit_status);
-    
-    // TODO: liberar tokens y cmds
 }
 
 int main(int argc, char **argv, char **envp)
@@ -42,11 +37,13 @@ int main(int argc, char **argv, char **envp)
     {
         prompt = readline("minishell> ");
         if (!prompt)
+        {
             break;
+        }
         if (*prompt)
             add_history(prompt);
         process_input(prompt, envp);
-        free(prompt);
     }
+    free(prompt);
     return (0);
 }

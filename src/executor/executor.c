@@ -35,15 +35,15 @@ int execute_simple(t_cmd *cmd, char **envp)
         if (!path)
         {
             printf("minishell: %s: command not found\n", cmd->args[0]);
-            return (127);
+            exit(127);
         }
         execve(path, cmd->args, envp);
         perror("execve failed");
         free(path);
         exit(1);
     }
-    free(path);
-    return (waitpid(pid, &status, 0), WEXITSTATUS(status));
+    waitpid(pid, &status, 0);
+    return (WEXITSTATUS(status));
 }
 
 int execute_pipeline(t_cmd *cmd, char **envp)
