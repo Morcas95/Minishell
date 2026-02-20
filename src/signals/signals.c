@@ -1,5 +1,10 @@
 #include "minishell.h"
 
+/*
+ * Controla la señal ctrl-C
+ * 
+ * Handle the ctrl-C signal
+ */
 void handle_sigint(int sig)
 {
     g_signal = sig;
@@ -8,7 +13,11 @@ void handle_sigint(int sig)
     rl_replace_line("", 0);
     rl_redisplay();
 }
-
+/*
+ * Configura las señales
+ * 
+ * Setup the signals
+ */
 void setup_signals(void)
 {
     struct sigaction sa_int;

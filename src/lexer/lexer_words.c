@@ -13,7 +13,14 @@ int	extract_plain(const char *s, int *i, char **out)
 		return (-1);
 	return (0);
 }
-
+/*
+ * Extrae las palabras entrecomilladas de un string
+ * Modifica 
+ * Retorna: 0 si hubo éxito, -1 si hubo algun error.
+ * 
+ * Extract the quoted words of a string
+ * Returns: 0 if success, -1 if error.
+ */
 int	extract_quoted(const char *s, int *i, char **out)
 {
 	char	q;
@@ -35,11 +42,9 @@ int	extract_quoted(const char *s, int *i, char **out)
 
 /*
  * Extrae una palabra (TOKEN_WORD) del string.
- * Gestiona las comillas.
  * Retorna: el string extraído, o NULL en caso de error.
  * 
  * Extract a word (TOKEN_WORD) from string.
- * Handles quotes.
  * Returns: the extracted string, or NULL on error.
  */
 char *extract_word(char *str, int *i)
