@@ -11,6 +11,13 @@ SRC =	./src/main.c \
 		./src/parser/parser.c \
 		./src/parser/parser_utils.c \
 		./src/parser/parser_cmd.c \
+		./src/builtins/builtin_dispatch.c \
+		./src/builtins/builtin_echo.c \
+		./src/builtins/builtin_pwd_env.c \
+		./src/builtins/builtin_cd.c \
+		./src/builtins/builtin_export.c \
+		./src/builtins/builtin_unset.c \
+		./src/builtins/builtin_exit.c \
 		./src/executor/executor.c \
 		./src/executor/path.c \
 		./src/executor/path_utils.c \
@@ -37,7 +44,7 @@ REVERSE := \033[7m
 HIDDEN  := \033[8m
 PINK 	:= \033[35m
 
-VPATH = ./src:./src/signals:./src/lexer:./src/parser:./src/executor
+VPATH = ./src:./src/signals:./src/lexer:./src/parser:./src/builtins:./src/executor
 
 all: $(NAME)
 

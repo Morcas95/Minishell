@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 /*
- * Crea e parsea una estructura de comando
+ * Crea y parsea una estructura de comando
  * Retorna: La estructura de comando.
  * 
  * Create and parse a command structure

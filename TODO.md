@@ -1,13 +1,13 @@
 # TODO - Lo que falta por implementar
 
 ## 1. Builtins (Prioridad ALTA)
-- [ ] echo con -n
-- [ ] cd (cambiar directorio con chdir)
-- [ ] pwd (mostrar directorio con getcwd)
-- [ ] export (añadir/modificar variables de entorno)
-- [ ] unset (eliminar variables de entorno)
-- [ ] env (mostrar todas las variables)
-- [ ] exit (salir del shell)
+- [X] echo con -n
+- [X] cd (cambiar directorio con chdir)
+- [X] pwd (mostrar directorio con getcwd)
+- [X] export (añadir/modificar variables de entorno)
+- [X] unset (eliminar variables de entorno)
+- [X] env (mostrar todas las variables)
+- [X] exit (salir del shell)
 
 ## 2. Variables de entorno (Prioridad ALTA)
 - [ ] Expandir $VAR, $USER, $PATH, etc.

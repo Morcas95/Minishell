@@ -2,11 +2,61 @@
 
 int g_signal = 0;
 
+static int	env_count(char **envp)
+{
+    int	count;
+
+    count = 0;
+    while (envp && envp[count])
+        count++;
+    return (count);
+}
+
+static char	**dup_envp(char **envp)
+{
+    char	**copy;
+    int		count;
+    int		i;
+
+    count = env_count(envp);
+    copy = (char **)malloc(sizeof(char *) * (count + 1));
+    if (!copy)
+        return (NULL);
+    i = 0;
+    while (i < count)
+    {
+        copy[i] = ft_strdup(envp[i]);
+        if (!copy[i])
+        {
+            while (i > 0)
+                free(copy[--i]);
+            free(copy);
+            return (NULL);
+        }
+        i++;
+    }
+    copy[count] = NULL;
+    return (copy);
+}
+
+static void	free_envp_copy(char **envp)
+{
+    int	i;
+
+    i = 0;
+    while (envp && envp[i])
+    {
+        free(envp[i]);
+        i++;
+    }
+    free(envp);
+}
+
 /*
  * Process the input line
  * Tokenizes and prints tokens for debugging
  */
-void process_input(char *input, char **envp)
+void process_input(char *input, char ***envp)
 {
     t_token *tokens;
     t_cmd   *cmds;
@@ -27,9 +77,13 @@ void process_input(char *input, char **envp)
 int main(int argc, char **argv, char **envp)
 {
     char *prompt;
+    char **shell_env;
 
     (void)argc;
     (void)argv;
+    shell_env = dup_envp(envp);
+    if (!shell_env)
+        return (perror("minishell: malloc"), 1);
 
     setup_signals();
     
@@ -42,8 +96,9 @@ int main(int argc, char **argv, char **envp)
         }
         if (*prompt)
             add_history(prompt);
-        process_input(prompt, envp);
+        process_input(prompt, &shell_env);
+        free(prompt);
     }
-    free(prompt);
+    free_envp_copy(shell_env);
     return (0);
 }
