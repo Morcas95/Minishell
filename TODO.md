@@ -10,9 +10,9 @@
 - [X] exit (salir del shell)
 
 ## 2. Variables de entorno (Prioridad ALTA)
-- [ ] Expandir $VAR, $USER, $PATH, etc.
-- [ ] Expandir $? (exit status del último comando)
-- [ ] Integrar expansión en el lexer
+- [X] Expandir $VAR, $USER, $PATH, etc.
+- [X] Expandir $? (exit status del último comando)
+- [X] Integrar expansión en el lexer
 
 ## 3. Memoria y limpieza (Prioridad MEDIA)
 - [ ] free_tokens() - Liberar lista de tokens
@@ -21,8 +21,8 @@
 - [ ] Verificar con valgrind (no debe haber leaks)
 
 ## 4. Gestión de variables de entorno (Prioridad MEDIA)
-- [ ] Crear copia local de envp (para export/unset)
-- [ ] Actualizar envp cuando se hace export
-- [ ] Pasar envp actualizado a los comandos
+- [X] Crear copia local de envp (para export/unset)
+- [X] Actualizar envp cuando se hace export
+- [X] Pasar envp actualizado a los comandos
 
 ---

@@ -12,12 +12,9 @@ static int	is_same_cmd(const char *left, const char *right)
 
 int	is_builtin(const char *cmd)
 {
-	return (is_same_cmd(cmd, "echo")
-		|| is_same_cmd(cmd, "cd")
-		|| is_same_cmd(cmd, "pwd")
-		|| is_same_cmd(cmd, "export")
-		|| is_same_cmd(cmd, "unset")
-		|| is_same_cmd(cmd, "env")
+	return (is_same_cmd(cmd, "echo") || is_same_cmd(cmd, "cd")
+		|| is_same_cmd(cmd, "pwd") || is_same_cmd(cmd, "export")
+		|| is_same_cmd(cmd, "unset") || is_same_cmd(cmd, "env")
 		|| is_same_cmd(cmd, "exit"));
 }
 

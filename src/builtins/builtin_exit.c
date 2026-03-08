@@ -35,7 +35,8 @@ int	builtin_exit(char **args)
 		exit(2);
 	}
 	if (args[2])
-		return (ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO), 1);
+		return (ft_putendl_fd("minishell: exit: too many arguments",
+				STDERR_FILENO), 1);
 	errno = 0;
 	value = ft_atoi(args[1]);
 	if (errno == ERANGE)
