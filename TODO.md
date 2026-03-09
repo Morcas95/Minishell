@@ -25,4 +25,7 @@
 - [X] Actualizar envp cuando se hace export
 - [X] Pasar envp actualizado a los comandos
 
+## 5. Arreglar HEREDOC
+- [ ] Arreglar heredoc para que cuando no se le pase archivo 
+
 ---
