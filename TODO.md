@@ -26,6 +26,6 @@
 - [X] Pasar envp actualizado a los comandos
 
 ## 5. Arreglar HEREDOC
-- [ ] Arreglar heredoc para que cuando no se le pase archivo 
+- [ ] Arreglar heredoc para que cuando no se le pase archivo.
 
 ---
