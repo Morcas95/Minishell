@@ -28,4 +28,10 @@
 ## 5. Arreglar HEREDOC
 - [ ] Arreglar heredoc para que cuando no se le pase archivo
 
+## 6. Extras
+- [ ] Welcome to the Minishell
+
+## 6. Pijadas
+- [ ] Poner pwd en el readline
+
 ---
