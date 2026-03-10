@@ -13,6 +13,7 @@
 - [X] Expandir $VAR, $USER, $PATH, etc.
 - [X] Expandir $? (exit status del último comando)
 - [X] Integrar expansión en el lexer
+- [ ] Arreglar var global de last_exit_status para $?
 - [ ] Hacer que funcionen en el heredoc
 
 ## 3. Memoria y limpieza (Prioridad MEDIA)
