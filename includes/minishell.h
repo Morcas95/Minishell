@@ -116,7 +116,7 @@ char				*build_candidate(char *dir, const char *cmd);
 int					has_slash(const char *s);
 
 //* Redirections
-int					apply_redirections(t_redir *redirects);
-char				*read_heredoc(char *delimiter);
+int					apply_redirections(t_redir *redirects, int has_cmd);
+char				*read_heredoc(char *delimiter, int has_cmd);
 
 #endif

@@ -1,15 +1,18 @@
 #include "minishell.h"
 
-char *read_heredoc(char *delimiter)
+char *read_heredoc(char *delimiter, int has_cmd)
 {
     int fd;
     char *prompt;
     char *filename;
 
-    filename = ft_strdup("/tmp/.heredoc_minishell");
-    fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd < 0)
-        return (free(filename), NULL);
+    if (has_cmd == 1)
+    {
+        filename = ft_strdup("/tmp/.heredoc_minishell");
+        fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        if (fd < 0)
+            return (free(filename), NULL);
+    }
     while (1)
     {
         prompt = readline("> ");
@@ -31,7 +34,7 @@ char *read_heredoc(char *delimiter)
  * Called in child process before execve
  * Returns: 0 on success, -1 on error
  */
-int apply_redirections(t_redir *redirects)
+int apply_redirections(t_redir *redirects, int has_cmd)
 {
     int fd;
     char *tmp_file;
@@ -64,19 +67,22 @@ int apply_redirections(t_redir *redirects)
         }
         else if (redirects->type == REDIR_HEREDOC)
         {
-            tmp_file = read_heredoc(redirects->file);
-            if (!tmp_file)
-                return (-1);
-            fd = open(tmp_file, O_RDONLY);
-            if (fd == -1)
+            tmp_file = read_heredoc(redirects->file, has_cmd);
+            if (has_cmd == 1)
             {
+                if (!tmp_file)
+                    return (-1);
+                fd = open(tmp_file, O_RDONLY);
+                if (fd == -1)
+                {
+                    free(tmp_file);
+                    return (perror("minishell: heredoc"), -1);
+                }
+                dup2(fd, 0);
+                close(fd);
+                unlink(tmp_file);
                 free(tmp_file);
-                return (perror("minishell: heredoc"), -1);
             }
-            dup2(fd, 0);
-            close(fd);
-            unlink(tmp_file);
-            free(tmp_file);
         }
         redirects = redirects->next;
     }
