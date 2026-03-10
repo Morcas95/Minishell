@@ -103,10 +103,32 @@ int execute_pipeline(t_cmd *cmd, char ***envp)
     int status;
     int last_status;
     pid_t pid;
+    char *tmp_file;
+    t_redir *redir;
+    t_cmd *temp;
 
     prev_fd = -1;
     num_cmds = 0;
     last_status = 0;
+
+    temp = cmd;
+    while (temp)
+    {
+        redir = temp->redirects;
+        while (redir)
+        {
+            if (redir->type == REDIR_HEREDOC)
+            {
+                tmp_file = read_heredoc(redir->file, 1);
+                
+                redir->type = REDIR_IN;
+                free(redir->file);
+                redir->file = tmp_file;
+            }
+            redir = redir->next;
+        }
+        temp = temp->next;
+    }
     while (cmd)
     {
         if (cmd->next)
