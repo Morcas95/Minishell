@@ -13,12 +13,12 @@ static int	append_text(char **result, const char *text)
 	return (0);
 }
 
-static int	append_exit_status(char **result)
+static int	append_exit_status(char **result, int last_exit_status)
 {
 	char	*status;
 	int		r;
 
-	status = ft_itoa(g_last_exit_status);
+	status = ft_itoa(last_exit_status);
 	if (!status)
 		return (-1);
 	r = append_text(result, status);
@@ -26,7 +26,8 @@ static int	append_exit_status(char **result)
 	return (r);
 }
 
-static int	append_env_var(const char *s, int *i, char **result, char **envp)
+static int	append_env_var(const char *s, int *i, char **result, char **envp,
+		int last_exit_status)
 {
 	int		start;
 	char	*name;
@@ -35,7 +36,7 @@ static int	append_env_var(const char *s, int *i, char **result, char **envp)
 	if (s[*i] == '?')
 	{
 		(*i)++;
-		return (append_exit_status(result));
+		return (append_exit_status(result, last_exit_status));
 	}
 	if (ft_isdigit(s[*i]))
 	{
@@ -57,7 +58,8 @@ static int	append_env_var(const char *s, int *i, char **result, char **envp)
 	return (0);
 }
 
-int	extract_plain(const char *s, int *i, char **out, char **envp)
+int	extract_plain(const char *s, int *i, char **out, char **envp,
+		int last_exit_status)
 {
 	int		start;
 	char	*piece;
@@ -69,7 +71,7 @@ int	extract_plain(const char *s, int *i, char **out, char **envp)
 		if (s[*i] == '$')
 		{
 			(*i)++;
-			if (append_env_var(s, i, out, envp) < 0)
+			if (append_env_var(s, i, out, envp, last_exit_status) < 0)
 				return (-1);
 		}
 		else
@@ -100,7 +102,8 @@ int	extract_plain(const char *s, int *i, char **out, char **envp)
  * Extract the quoted words of a string
  * Returns: 0 if success, -1 if error.
  */
-int	extract_quoted(const char *s, int *i, char **out, char **envp)
+int	extract_quoted(const char *s, int *i, char **out, char **envp,
+		int last_exit_status)
 {
 	char	q;
 	int		start;
@@ -114,7 +117,7 @@ int	extract_quoted(const char *s, int *i, char **out, char **envp)
 		if (q == '"' && s[*i] == '$')
 		{
 			(*i)++;
-			if (append_env_var(s, i, out, envp) < 0)
+			if (append_env_var(s, i, out, envp, last_exit_status) < 0)
 				return (-1);
 		}
 		else
@@ -147,7 +150,7 @@ int	extract_quoted(const char *s, int *i, char **out, char **envp)
  * Extract a word (TOKEN_WORD) from string.
  * Returns: the extracted string, or NULL on error.
  */
-char	*extract_word(char *str, int *i, char **envp)
+char	*extract_word(char *str, int *i, char **envp, int last_exit_status)
 {
 	char	*part;
 	char	*result;
@@ -158,12 +161,12 @@ char	*extract_word(char *str, int *i, char **envp)
 	{
 		if (str[*i] == '\'' || str[*i] == '"')
 		{
-			if (extract_quoted(str, i, &part, envp) < 0)
+			if (extract_quoted(str, i, &part, envp, last_exit_status) < 0)
 				return (free(result), NULL);
 		}
 		else
 		{
-			if (extract_plain(str, i, &part, envp) < 0)
+			if (extract_plain(str, i, &part, envp, last_exit_status) < 0)
 				return (free(result), NULL);
 		}
 		result = ft_strjoin(result, part);

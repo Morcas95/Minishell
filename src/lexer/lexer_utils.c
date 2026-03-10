@@ -37,7 +37,7 @@ int	is_operator(char c)
  * Updates i to position after the token.
  * Returns: the token, or NULL on error.
  */
-t_token	*extract_token(char *str, int *i, char **envp)
+t_token	*extract_token(char *str, int *i, char **envp, int last_exit_status)
 {
 	t_token *token;
 
@@ -81,7 +81,7 @@ t_token	*extract_token(char *str, int *i, char **envp)
 	else
 	{
 		token->type = TOKEN_WORD;
-		token->value = extract_word(str, i, envp);
+		token->value = extract_word(str, i, envp, last_exit_status);
 		if (!token->value)
 		{
 			free(token);

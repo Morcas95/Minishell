@@ -15,7 +15,6 @@
 # include <unistd.h>
 
 extern int			g_signal;
-extern int			g_last_exit_status;
 
 //* Tokens Types
 typedef enum e_token_type
@@ -27,6 +26,7 @@ typedef enum e_token_type
 	TOKEN_REDIR_APPEND, // >>
 	TOKEN_HEREDOC       // <<
 }					t_token_type;
+
 
 //* Tokens Structure
 typedef struct s_token
@@ -66,13 +66,15 @@ void				handle_sigint(int sig);
 void				setup_signals(void);
 
 //* Lexer
-t_token				*lexer(char *input, char **envp);
-t_token				*extract_token(char *str, int *i, char **envp);
-char				*extract_word(char *str, int *i, char **envp);
+t_token				*lexer(char *input, char **envp, int last_exit_status);
+t_token				*extract_token(char *str, int *i, char **envp,
+						int last_exit_status);
+char				*extract_word(char *str, int *i, char **envp,
+						int last_exit_status);
 int					extract_plain(const char *s, int *i, char **out,
-						char **envp);
+						char **envp, int last_exit_status);
 int					extract_quoted(const char *s, int *i, char **out,
-						char **envp);
+						char **envp, int last_exit_status);
 int					skip_spaces(char *str, int i);
 int					is_operator(char c);
 

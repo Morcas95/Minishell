@@ -7,7 +7,7 @@
  * Converts a string into a tokens list
  * Returns: The tokens list, or NULL if there's an error
  */
-t_token	*lexer(char *input, char **envp)
+t_token	*lexer(char *input, char **envp, int last_exit_status)
 {
 	t_token	*head;
 	t_token	*current;
@@ -24,7 +24,7 @@ t_token	*lexer(char *input, char **envp)
 		i = skip_spaces(input, i);
 		if (!input[i])
 			break ;
-		new_token = extract_token(input, &i, envp);
+		new_token = extract_token(input, &i, envp, last_exit_status);
 		if (!new_token)
 			return (NULL); //* liberar lista si error
 		if (!head)
