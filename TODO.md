@@ -34,9 +34,9 @@
 - [ ] No funciona este comando: cat << EOF1 << EOF2
 
 ## 6. Extras
-- [ ] Welcome to the Minishell
+- [X] Welcome to the Minishell
 
-## 6. Pijadas
-- [ ] Poner pwd en el readline
+## 7. Pijadas
+- [X] Poner pwd en el readline
 
 ---
