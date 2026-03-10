@@ -15,7 +15,7 @@ t_cmd *parse_one_cmd(t_token *tokens)
     
     cmd = create_cmd();
     if (!cmd)
-    return (NULL);
+        return (NULL);
     cmd->args = fill_args(tokens);
     while (tokens && tokens->type != TOKEN_PIPE)
     {

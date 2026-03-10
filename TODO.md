@@ -13,6 +13,7 @@
 - [X] Expandir $VAR, $USER, $PATH, etc.
 - [X] Expandir $? (exit status del último comando)
 - [X] Integrar expansión en el lexer
+- [ ] Hacer que funcionen en el heredoc
 
 ## 3. Memoria y limpieza (Prioridad MEDIA)
 - [ ] free_tokens() - Liberar lista de tokens
@@ -26,7 +27,10 @@
 - [X] Pasar envp actualizado a los comandos
 
 ## 5. Arreglar HEREDOC
-- [ ] Arreglar heredoc para que cuando no se le pase archivo
+- [X] Arreglar heredoc para que cuando no se le pase archivo
+- [X] No funciona este comando: cat << EOF | grep test
+- [X] Arreglar la función execute_pipeline (parte añadida)
+- [ ] No funciona este comando: cat << EOF1 << EOF2
 
 ## 6. Extras
 - [ ] Welcome to the Minishell
