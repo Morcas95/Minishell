@@ -52,6 +52,31 @@ static void	free_envp_copy(char **envp)
 	free(envp);
 }
 
+static char	*build_prompt(void)
+{
+	char	*cwd;
+	char	*prefix;
+	char	*tmp;
+	char	*prompt;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		cwd = ft_strdup("?");
+	if (!cwd)
+		return (NULL);
+	prefix = const_ft_strjoin("\001\033[32m\002minishell\001\033[90m\002@\001\033[38;5;31m\002",
+			cwd);
+	free(cwd);
+	if (!prefix)
+		return (NULL);
+	tmp = const_ft_strjoin(prefix, "> \001\033[0m\002");
+	free(prefix);
+	if (!tmp)
+		return (NULL);
+	prompt = tmp;
+	return (prompt);
+}
+
 /*
  * Process the input line
  * Tokenizes and prints tokens for debugging
@@ -71,15 +96,16 @@ int	process_input(char *input, char ***envp, int last_exit_status)
 	if (!cmds)
 		return (last_exit_status);
 	exit_status = execute(cmds, envp);
-	//printf("Exit status: %d\n", exit_status);
+	// printf("Exit status: %d\n", exit_status);
 	return (exit_status);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char *prompt;
-	char **shell_env;
-	int last_exit_status;
+	char	*prompt;
+	char	*prompt_text;
+	char	**shell_env;
+	int		last_exit_status;
 
 	(void)argc;
 	(void)argv;
@@ -87,12 +113,15 @@ int	main(int argc, char **argv, char **envp)
 	if (!shell_env)
 		return (perror("minishell: malloc"), 1);
 	last_exit_status = 0;
-
 	setup_signals();
-
+	shell_welcome();
 	while (1)
 	{
-		prompt = readline("minishell> ");
+		prompt_text = build_prompt();
+		if (!prompt_text)
+			return (free_envp_copy(shell_env), perror("minishell: malloc"), 1);
+		prompt = readline(prompt_text);
+		free(prompt_text);
 		if (!prompt)
 		{
 			break ;

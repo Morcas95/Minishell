@@ -4,6 +4,7 @@ NAME = minishell
 LIBFT = ./libft/libft.a
 INCLUDE = -I./includes
 SRC =	./src/main.c \
+		./src/shell_welcome.c \
 		./src/signals/signals.c \
 		./src/lexer/lexer.c \
 		./src/lexer/lexer_utils.c \
