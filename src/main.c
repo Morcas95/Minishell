@@ -71,7 +71,7 @@ int	process_input(char *input, char ***envp, int last_exit_status)
 	if (!cmds)
 		return (last_exit_status);
 	exit_status = execute(cmds, envp);
-	printf("Exit status: %d\n", exit_status);
+	//printf("Exit status: %d\n", exit_status);
 	return (exit_status);
 }
 
