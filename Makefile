@@ -4,7 +4,7 @@ NAME = minishell
 LIBFT = ./libft/libft.a
 INCLUDE = -I./includes
 SRC =	./src/main.c \
-		./src/shell_welcome.c \
+		./src/shell_welcome/shell_welcome.c \
 		./src/signals/signals.c \
 		./src/lexer/lexer.c \
 		./src/lexer/lexer_utils.c \
@@ -45,7 +45,7 @@ REVERSE := \033[7m
 HIDDEN  := \033[8m
 PINK 	:= \033[35m
 
-VPATH = ./src:./src/signals:./src/lexer:./src/parser:./src/builtins:./src/executor
+VPATH = ./src:./src/signals:./src/lexer:./src/parser:./src/builtins:./src/executor:./src/shell_welcome
 
 all: $(NAME)
 
