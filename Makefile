@@ -22,7 +22,8 @@ SRC =	./src/main.c \
 		./src/executor/executor.c \
 		./src/executor/path.c \
 		./src/executor/path_utils.c \
-		./src/executor/redirections.c
+		./src/executor/redirections.c \
+		./src/memory/free.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
@@ -45,7 +46,7 @@ REVERSE := \033[7m
 HIDDEN  := \033[8m
 PINK 	:= \033[35m
 
-VPATH = ./src:./src/signals:./src/lexer:./src/parser:./src/builtins:./src/executor:./src/shell_welcome
+VPATH = ./src:./src/signals:./src/lexer:./src/parser:./src/builtins:./src/executor:./src/shell_welcome:./src/memory
 
 all: $(NAME)
 

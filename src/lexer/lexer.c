@@ -26,7 +26,11 @@ t_token	*lexer(char *input, char **envp, int last_exit_status)
 			break ;
 		new_token = extract_token(input, &i, envp, last_exit_status);
 		if (!new_token)
-			return (NULL); //* liberar lista si error
+		{
+			free_tokens(head);
+			return (NULL);
+		}
+
 		if (!head)
 			head = new_token;
 		else

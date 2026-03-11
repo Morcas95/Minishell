@@ -20,6 +20,12 @@ t_cmd *parser(t_token *tokens)
     while (temp)
     {
         new_cmd = parse_one_cmd(temp);
+		if(!new_cmd)
+		{
+			free_cmd_list(head);
+			free_tokens(tokens);
+			return (NULL);
+		}
         if (!head)
             head = new_cmd;
         else
@@ -29,6 +35,7 @@ t_cmd *parser(t_token *tokens)
         if (temp && temp->type == TOKEN_PIPE)
             temp = temp->next;
     }
+	free_tokens(tokens);
     return (head);
 }
 /*

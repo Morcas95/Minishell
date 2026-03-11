@@ -17,6 +17,7 @@
 extern int			g_signal;
 
 //* Tokens Types
+
 typedef enum e_token_type
 {
 	TOKEN_WORD,         // Normal Word
@@ -29,6 +30,7 @@ typedef enum e_token_type
 
 
 //* Tokens Structure
+
 typedef struct s_token
 {
 	t_token_type	type;
@@ -37,6 +39,7 @@ typedef struct s_token
 }					t_token;
 
 //* Redirection types
+
 typedef enum e_redir_type
 {
 	REDIR_IN,     // <
@@ -46,6 +49,7 @@ typedef enum e_redir_type
 }					t_redir_type;
 
 //* Redirection structure
+
 typedef struct s_redir
 {
 	t_redir_type	type;
@@ -54,6 +58,7 @@ typedef struct s_redir
 }					t_redir;
 
 //* Command structure
+
 typedef struct s_cmd
 {
 	char **args;        // Array of arguments [cmd, arg1, arg2, NULL]
@@ -62,10 +67,12 @@ typedef struct s_cmd
 }					t_cmd;
 
 //* Signals
+
 void				handle_sigint(int sig);
 void				setup_signals(void);
 
 //* Lexer
+
 t_token				*lexer(char *input, char **envp, int last_exit_status);
 t_token				*extract_token(char *str, int *i, char **envp,
 						int last_exit_status);
@@ -79,6 +86,7 @@ int					skip_spaces(char *str, int i);
 int					is_operator(char c);
 
 //* Parser
+
 t_cmd				*parser(t_token *tokens);
 t_cmd				*create_cmd(void);
 t_cmd				*parse_one_cmd(t_token *tokens);
@@ -90,11 +98,13 @@ t_token				*next_pipe(t_token *tokens);
 t_redir_type		token_to_redir_type(t_token_type type);
 
 //*Executor
+
 int					execute(t_cmd *cmd, char ***envp);
 int					execute_simple(t_cmd *cmd, char ***envp);
 int					execute_pipeline(t_cmd *cmd, char ***envp);
 
 //* Builtins
+
 int					is_builtin(const char *cmd);
 int					exec_builtin(t_cmd *cmd, char ***envp);
 int					builtin_echo(char **args);
@@ -106,6 +116,7 @@ int					builtin_unset(char **args, char ***envp);
 int					builtin_exit(char **args);
 
 //* Paths
+
 int					resolve_via_path(const char *cmd, char **envp,
 						char **out_path);
 int					resolve_direct_path(const char *cmd, char **out_path);
@@ -118,8 +129,16 @@ char				*build_candidate(char *dir, const char *cmd);
 int					has_slash(const char *s);
 
 //* Redirections
+
 int					apply_redirections(t_redir *redirects, int has_cmd);
 char				*read_heredoc(char *delimiter, int has_cmd);
+
+//* Memory
+
+void free_cmd_list(t_cmd *cmd);
+void free_redir_list(t_redir *redir);
+void free_tokens(t_token *tokens);
+void free_string_array(char **arr);
 
 //* Welcome
 
