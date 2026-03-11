@@ -4,3 +4,5 @@ obj/
 minishell
 
 minishell_tester/
+
+.vscode
