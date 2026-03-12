@@ -17,10 +17,10 @@
 - [ ] Hacer que funcionen en el heredoc
 
 ## 3. Memoria y limpieza (Prioridad MEDIA)
-- [ ] free_tokens() - Liberar lista de tokens
-- [ ] free_cmd_list() - Liberar lista de comandos
-- [ ] free_redir_list() - Liberar redirecciones
-- [ ] Verificar con valgrind (no debe haber leaks)
+- [X] free_tokens() - Liberar lista de tokens
+- [X] free_cmd_list() - Liberar lista de comandos
+- [X] free_redir_list() - Liberar redirecciones
+- [X] Verificar con valgrind (no debe haber leaks)
 
 ## 4. Gestión de variables de entorno (Prioridad MEDIA)
 - [X] Crear copia local de envp (para export/unset)
