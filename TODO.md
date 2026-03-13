@@ -35,7 +35,8 @@
 
 ## 6. Extras
 - [X] Welcome to the Minishell
-
+- [ ] Hacer README.md
+- [ ] Norminette
 ## 7. Pijadas
 - [X] Poner pwd en el readline
 

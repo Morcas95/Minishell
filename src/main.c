@@ -115,7 +115,7 @@ int	main(int argc, char **argv, char **envp)
 		return (perror("minishell: malloc"), 1);
 	last_exit_status = 0;
 	setup_signals();
-	//shell_welcome();
+	shell_welcome();
 	while (1)
 	{
 		prompt_text = build_prompt();
@@ -124,9 +124,7 @@ int	main(int argc, char **argv, char **envp)
 		prompt = readline(prompt_text);
 		free(prompt_text);
 		if (!prompt)
-		{
 			break ;
-		}
 		if (*prompt)
 			add_history(prompt);
 		last_exit_status = process_input(prompt, &shell_env, last_exit_status);
