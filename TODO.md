@@ -8,6 +8,7 @@
 - [X] unset (eliminar variables de entorno)
 - [X] env (mostrar todas las variables)
 - [X] exit (salir del shell)
+- [ ] exit (Salir con codigo correcto (126))
 
 ## 2. Variables de entorno (Prioridad ALTA)
 - [X] Expandir $VAR, $USER, $PATH, etc.

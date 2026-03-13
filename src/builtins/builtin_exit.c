@@ -24,7 +24,7 @@ int	builtin_exit(char **args)
 {
 	long long	value;
 
-	ft_putendl_fd("exit", STDERR_FILENO);
+	//ft_putendl_fd("exit", STDERR_FILENO);
 	if (!args[1])
 		exit(0);
 	if (!is_numeric(args[1]))
