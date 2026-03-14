@@ -46,9 +46,11 @@ char	*resolve_var(const char *line, int *i, char **envp, int last_exit_status)
 	name = const_ft_substr(line, start, *i - start);
 	if (!name)
 		return (NULL);
-	value = ft_strdup((char *)get_env_value(envp, name));
+	value = (char *)get_env_value(envp, name);
 	free(name);
-	if (!value)
+	if(value)
+		value = ft_strdup(value);
+	else
 		value = ft_strdup("");
 	return (value);
 }
