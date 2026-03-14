@@ -32,7 +32,7 @@ static int	execute_builtin_parent(t_cmd *cmd, char ***envp)
     saved_stdout = dup(STDOUT_FILENO);
     if (saved_stdin < 0 || saved_stdout < 0)
         return (perror("minishell: dup"), 1);
-    if (apply_redirections(cmd->redirects, 1) < 0)
+    if (apply_redirections(cmd->redirects, 1, *envp, 0) < 0)
     {
         dup2(saved_stdin, STDIN_FILENO);
         dup2(saved_stdout, STDOUT_FILENO);
@@ -83,7 +83,7 @@ int execute_simple(t_cmd *cmd, char ***envp)
         return (perror("minishell: fork"), 1);
     if (pid == 0)
     {
-        if (apply_redirections(cmd->redirects, redirect) < 0)
+        if (apply_redirections(cmd->redirects, redirect, *envp, 0) < 0)
             exit(1);
         if (is_builtin(cmd->args[0]))
             exit(exec_builtin(cmd, envp));
@@ -119,7 +119,7 @@ int execute_pipeline(t_cmd *cmd, char ***envp)
         {
             if (redir->type == REDIR_HEREDOC)
             {
-                tmp_file = read_heredoc(redir->file, 1);
+                tmp_file = read_heredoc(redir->file, 1, *envp, 0);
                 
                 redir->type = REDIR_IN;
                 free(redir->file);
@@ -150,7 +150,7 @@ int execute_pipeline(t_cmd *cmd, char ***envp)
                 close(pipe_fd[1]);
                 close(pipe_fd[0]);
             }
-            if (apply_redirections(cmd->redirects, 1) < 0)
+            if (apply_redirections(cmd->redirects, 1, *envp, 0) < 0)
                 exit(1);
             if (!cmd->args || !cmd->args[0])
                 exit(0);

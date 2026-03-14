@@ -130,8 +130,12 @@ int					has_slash(const char *s);
 
 //* Redirections
 
-int					apply_redirections(t_redir *redirects, int has_cmd);
-char				*read_heredoc(char *delimiter, int has_cmd);
+int apply_redirections	(t_redir *redirects, int has_cmd, char **envp, int last_exit_status);
+char				*read_heredoc(char *delimiter, int has_cmd, char **envp, int last_exit_status);
+void	write_expanded(int fd, char *expanded);
+char	*append_char(char *result, char c);
+char	*append_str(char *result, char *value);
+char	*resolve_var(const char *line, int *i, char **envp, int last_exit_status);
 
 //* Memory
 

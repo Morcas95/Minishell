@@ -1,32 +1,52 @@
 #include "minishell.h"
 
-char *read_heredoc(char *delimiter, int has_cmd)
+static char	*expand_heredoc_line(const char *line, char **envp, int last_exit_status)
 {
-    int fd;
-    char *prompt;
-    char *filename;
+	char	*result;
+	char	*value;
+	int		i;
 
-    if (has_cmd == 1)
-    {
-        filename = ft_strdup("/tmp/.heredoc_minishell");
-        fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-        if (fd < 0)
-            return (free(filename), NULL);
-    }
-    while (1)
-    {
-        prompt = readline("> ");
-        if (!prompt || ft_strcmp(prompt, delimiter) == 0)
-        {
-            free(prompt);
-            break;
-        }
-        write(fd, prompt, strlen(prompt));
-        write(fd, "\n", 1);
-        free(prompt);
-    }
-    close(fd);
-    return (filename);
+	result = ft_strdup("");
+	i = 0;
+	while (result && line[i])
+	{
+		if (line[i] == '$' && line[i + 1])
+		{
+			i++;
+			value = resolve_var(line, &i, envp, last_exit_status);
+			if (!value)
+				result = append_char(result, '$');
+			else
+				result = append_str(result, value);
+		}
+		else
+			result = append_char(result, line[i++]);
+	}
+	return (result);
+}
+
+char	*read_heredoc(char *delimiter, int has_cmd, char **envp, int last_exit_status)
+{
+	int		fd;
+	char	*prompt;
+	char	*filename;
+
+	if (has_cmd == 1)
+	{
+		filename = ft_strdup("/tmp/.heredoc_minishell");
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd < 0)
+			return (free(filename), NULL);
+	}
+	while (1)
+	{
+		prompt = readline("> ");
+		if (!prompt || ft_strcmp(prompt, delimiter) == 0)
+			return (free(prompt), close(fd), filename);
+		write_expanded(fd, expand_heredoc_line(prompt, envp, last_exit_status));
+		free(prompt);
+		write(fd, "\n", 1);
+	}
 }
 
 /*
@@ -34,7 +54,7 @@ char *read_heredoc(char *delimiter, int has_cmd)
  * Called in child process before execve
  * Returns: 0 on success, -1 on error
  */
-int apply_redirections(t_redir *redirects, int has_cmd)
+int apply_redirections(t_redir *redirects, int has_cmd, char **envp, int last_exit_status)
 {
     int fd;
     char *tmp_file;
@@ -67,7 +87,7 @@ int apply_redirections(t_redir *redirects, int has_cmd)
         }
         else if (redirects->type == REDIR_HEREDOC)
         {
-            tmp_file = read_heredoc(redirects->file, has_cmd);
+            tmp_file = read_heredoc(redirects->file, has_cmd, envp, last_exit_status);
             if (has_cmd == 1)
             {
                 if (!tmp_file)

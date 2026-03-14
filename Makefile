@@ -23,6 +23,7 @@ SRC =	./src/main.c \
 		./src/executor/path.c \
 		./src/executor/path_utils.c \
 		./src/executor/redirections.c \
+		./src/executor/redirections_utils.c \
 		./src/memory/free.c
 
 OBJ_DIR = obj
