@@ -15,7 +15,7 @@
 - [X] Expandir $? (exit status del último comando)
 - [X] Integrar expansión en el lexer
 - [X] Arreglar var global de last_exit_status para $?
-- [ ] Hacer que funcionen en el heredoc
+- [X] Hacer que funcionen en el heredoc
 
 ## 3. Memoria y limpieza (Prioridad MEDIA)
 - [X] free_tokens() - Liberar lista de tokens
@@ -38,6 +38,7 @@
 - [X] Welcome to the Minishell
 - [ ] Hacer README.md
 - [ ] Norminette
+
 ## 7. Pijadas
 - [X] Poner pwd en el readline
 
