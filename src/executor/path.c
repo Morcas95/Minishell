@@ -14,7 +14,11 @@ int	resolve_direct_path(const char *cmd, char **out_path)
 			return (0);
 		}
 		else
+		{
+			if (errno == EACCES)
+				return (-2);
 			return (-1);
+		}
 	}
 	return (1);
 }

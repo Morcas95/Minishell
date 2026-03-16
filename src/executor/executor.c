@@ -3,30 +3,31 @@
 static int	execute_external(t_cmd *cmd, char **envp)
 {
     char	*path;
+    int ret;
 
     path = NULL;
     if (!cmd->args || !cmd->args[0])
         exit(0);
     if (has_slash(cmd->args[0]))
-        resolve_direct_path(cmd->args[0], &path);
+        ret = resolve_direct_path(cmd->args[0], &path);
     else
-        resolve_via_path(cmd->args[0], envp, &path);
+        ret = resolve_via_path(cmd->args[0], envp, &path);
+    if (ret == -2)
+    {
+        print_error("minishell: ");
+        print_error(cmd->args[0]);
+        print_error(": Permission denied\n");
+        exit(126);
+    }
     if (!path)
     {
-        printf("minishell: %s: command not found\n", cmd->args[0]);
+        print_error("minishell: ");
+        print_error(cmd->args[0]);
+        print_error(": command not found\n");
         exit(127);
     }
     execve(path, cmd->args, envp);
-    if (path == NULL && strchr(cmd->args[0], '/') == NULL)
-	{
-		print_error("pipex: command not found: ");
-		print_error(cmd->args[0]);
-		print_error("\n");
-        free(path);
-		exit(127);
-	}
     perror("minishell: execve failed");
-    free(path);
     exit(126);
 }
 
