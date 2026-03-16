@@ -65,6 +65,14 @@ typedef struct s_cmd
 	struct s_cmd *next; // Next command (for pipes)
 }					t_cmd;
 
+//* Struct to simplify
+
+typedef struct s_expand
+{
+    char    **envp;
+    int     last_exit_status;
+}   t_expand;
+
 //* Signals
 
 void				handle_sigint(int sig);
