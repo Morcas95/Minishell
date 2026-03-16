@@ -32,7 +32,7 @@
 - [X] Arreglar heredoc para que cuando no se le pase archivo
 - [X] No funciona este comando: cat << EOF | grep test
 - [X] Arreglar la función execute_pipeline (parte añadida)
-- [ ] No funciona este comando: cat << EOF1 << EOF2
+- [X] No funciona este comando: cat << EOF1 << EOF2
 
 ## 6. Extras
 - [X] Welcome to the Minishell
