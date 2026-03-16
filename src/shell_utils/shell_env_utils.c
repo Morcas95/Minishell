@@ -6,21 +6,11 @@
 /*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 16:53:55 by dcerezo-          #+#    #+#             */
-/*   Updated: 2026/03/16 17:28:21 by dcerezo-         ###   ########.fr       */
+/*   Updated: 2026/03/16 18:35:03 by dcerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	env_size(char **envp)
-{
-	int	count;
-
-	count = 0;
-	while (envp && envp[count])
-		count++;
-	return (count);
-}
 
 int	env_count(char **envp)
 {

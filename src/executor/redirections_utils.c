@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections_utils.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/16 19:21:19 by dcerezo-          #+#    #+#             */
+/*   Updated: 2026/03/16 19:21:23 by dcerezo-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	write_expanded(int fd, char *expanded)
@@ -30,7 +42,8 @@ char	*append_str(char *result, char *value)
 	return (tmp);
 }
 
-char	*resolve_var(const char *line, int *i, char **envp, int last_exit_status)
+char	*resolve_var(const char *line, int *i, char **envp,
+		int last_exit_status)
 {
 	char	*name;
 	char	*value;
@@ -48,7 +61,7 @@ char	*resolve_var(const char *line, int *i, char **envp, int last_exit_status)
 		return (NULL);
 	value = (char *)get_env_value(envp, name);
 	free(name);
-	if(value)
+	if (value)
 		value = ft_strdup(value);
 	else
 		value = ft_strdup("");
