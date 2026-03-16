@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/16 17:19:00 by dcerezo-          #+#    #+#             */
+/*   Updated: 2026/03/16 17:19:43 by dcerezo-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	is_numeric(const char *str)
@@ -24,7 +36,6 @@ int	builtin_exit(char **args)
 {
 	long long	value;
 
-	//ft_putendl_fd("exit", STDERR_FILENO);
 	if (!args[1])
 		exit(0);
 	if (!is_numeric(args[1]))

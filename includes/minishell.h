@@ -155,9 +155,10 @@ int					process_input(char *input, char ***envp,
 void				free_envp_copy(char **envp);
 char				**dup_envp(char **envp);
 int					env_count(char **envp);
+int					env_size(char **envp);
 
 //* Errors
 
-int	print_error(const char *str);
+int					print_error(const char *str);
 
 #endif

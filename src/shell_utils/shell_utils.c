@@ -6,7 +6,7 @@
 /*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 15:27:08 by dcerezo-          #+#    #+#             */
-/*   Updated: 2026/03/16 16:57:04 by dcerezo-         ###   ########.fr       */
+/*   Updated: 2026/03/16 17:26:18 by dcerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static char	*build_prompt(void)
 		cwd = ft_strdup("?");
 	if (!cwd)
 		return (NULL);
-	prefix = const_ft_strjoin("\001\033[32m\002minishell\001\033[90m\002@\001\033[38;5;31m\002",
-			cwd);
+	prefix = const_ft_strjoin("\001\033[32m\002minishell\001\033[90m\002@"
+			"\001\033[38;5;31m\002", cwd);
 	free(cwd);
 	if (!prefix)
 		return (NULL);
@@ -64,9 +64,9 @@ void	shell_welcome(void)
 	int		fd;
 	char	*line;
 
-	fd = open("src/shell_welcome/welcome_txt.txt", O_RDONLY);
+	fd = open("src/shell_utils/welcome_txt.txt", O_RDONLY);
 	ft_putstr("\x1B"
-				"c");
+		"c");
 	ft_putstr_fd("\033[38;5;208m", STDOUT_FILENO);
 	if (fd < 0)
 		return ;

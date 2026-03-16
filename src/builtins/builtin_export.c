@@ -1,14 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/16 17:19:02 by dcerezo-          #+#    #+#             */
+/*   Updated: 2026/03/16 17:28:13 by dcerezo-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-static int	env_size(char **envp)
-{
-	int	count;
-
-	count = 0;
-	while (envp && envp[count])
-		count++;
-	return (count);
-}
 
 static int	find_env_index(char **envp, const char *name, size_t name_len)
 {
@@ -41,6 +43,16 @@ static int	is_valid_identifier(const char *name)
 	return (1);
 }
 
+int	ft_new_env(char **new_env, char ***envp, int count, char *arg)
+{
+	ft_memcpy(new_env, *envp, sizeof(char *) * count);
+	new_env[count] = ft_strdup(arg);
+	new_env[count + 1] = NULL;
+	if (!new_env[count])
+		return (free(new_env), 1);
+	return (0);
+}
+
 static int	set_or_add_env(char ***envp, char *arg)
 {
 	char	**new_env;
@@ -64,11 +76,7 @@ static int	set_or_add_env(char ***envp, char *arg)
 	new_env = (char **)malloc(sizeof(char *) * (count + 2));
 	if (!new_env)
 		return (1);
-	ft_memcpy(new_env, *envp, sizeof(char *) * count);
-	new_env[count] = ft_strdup(arg);
-	new_env[count + 1] = NULL;
-	if (!new_env[count])
-		return (free(new_env), 1);
+	ft_new_env(new_env, envp, count, arg);
 	free(*envp);
 	*envp = new_env;
 	return (0);

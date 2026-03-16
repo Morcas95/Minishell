@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/16 17:17:32 by dcerezo-          #+#    #+#             */
+/*   Updated: 2026/03/16 17:33:08 by dcerezo-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	find_env_index(char **envp, const char *name)
@@ -41,13 +53,8 @@ static int	set_env_pair(char ***envp, const char *name, const char *value)
 	return (1);
 }
 
-int	builtin_cd(char **args, char ***envp)
+int	cd_target(char **args, char *target, char ***envp, const char *home)
 {
-	char		*old_pwd;
-	char		*target;
-	char		*new_pwd;
-	const char	*home;
-
 	if (args[1] && args[2])
 		return (ft_putendl_fd("minishell: cd: too many arguments",
 				STDERR_FILENO), 1);
@@ -61,6 +68,18 @@ int	builtin_cd(char **args, char ***envp)
 				1);
 		target = (char *)home;
 	}
+	return (0);
+}
+
+int	builtin_cd(char **args, char ***envp)
+{
+	char		*old_pwd;
+	char		*target;
+	char		*new_pwd;
+	const char	*home;
+
+	target = NULL;
+	cd_target(args, target, envp, home);
 	old_pwd = getcwd(NULL, 0);
 	if (chdir(target) != 0)
 	{
