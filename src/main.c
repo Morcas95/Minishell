@@ -14,7 +14,7 @@ int	main(int argc, char **argv, char **envp)
 		return (perror("minishell: malloc"), 1);
 	last_exit_status = 0;
 	setup_signals();
-	shell_welcome();
+	//shell_welcome();
 	shell_execution(shell_env, last_exit_status);
 	free_envp_copy(shell_env);
 	return (0);
