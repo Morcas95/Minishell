@@ -28,7 +28,6 @@ typedef enum e_token_type
 	TOKEN_HEREDOC       // <<
 }					t_token_type;
 
-
 //* Tokens Structure
 
 typedef struct s_token
@@ -130,22 +129,31 @@ int					has_slash(const char *s);
 
 //* Redirections
 
-int apply_redirections	(t_redir *redirects, int has_cmd, char **envp, int last_exit_status);
-char				*read_heredoc(char *delimiter, int has_cmd, char **envp, int last_exit_status);
-void	write_expanded(int fd, char *expanded);
-char	*append_char(char *result, char c);
-char	*append_str(char *result, char *value);
-char	*resolve_var(const char *line, int *i, char **envp, int last_exit_status);
+int					apply_redirections(t_redir *redirects, int has_cmd,
+						char **envp, int last_exit_status);
+char				*read_heredoc(char *delimiter, int has_cmd, char **envp,
+						int last_exit_status);
+void				write_expanded(int fd, char *expanded);
+char				*append_char(char *result, char c);
+char				*append_str(char *result, char *value);
+char				*resolve_var(const char *line, int *i, char **envp,
+						int last_exit_status);
 
 //* Memory
 
-void free_cmd_list(t_cmd *cmd);
-void free_redir_list(t_redir *redir);
-void free_tokens(t_token *tokens);
-void free_string_array(char **arr);
+void				free_cmd_list(t_cmd *cmd);
+void				free_redir_list(t_redir *redir);
+void				free_tokens(t_token *tokens);
+void				free_string_array(char **arr);
 
-//* Welcome
+//* Shell Utils
 
-void	shell_welcome();
+int					shell_execution(char **shell_env, int last_exit_status);
+void				shell_welcome(void);
+int					process_input(char *input, char ***envp,
+						int last_exit_status);
+void				free_envp_copy(char **envp);
+char				**dup_envp(char **envp);
+int					env_count(char **envp);
 
 #endif
