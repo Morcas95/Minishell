@@ -114,7 +114,7 @@ int	main(int argc, char **argv, char **envp)
 		return (perror("minishell: malloc"), 1);
 	last_exit_status = 0;
 	setup_signals();
-	shell_welcome();
+	//shell_welcome();
 	while (1)
 	{
 		prompt_text = build_prompt();

@@ -36,7 +36,7 @@
 
 ## 6. Extras
 - [X] Welcome to the Minishell
-- [ ] Hacer README.md
+- [X] Hacer README.md
 - [ ] Norminette
 
 ## 7. Pijadas

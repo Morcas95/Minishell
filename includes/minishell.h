@@ -148,4 +148,8 @@ void free_string_array(char **arr);
 
 void	shell_welcome();
 
+//* Errors
+
+int	print_error(const char *str);
+
 #endif

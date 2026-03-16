@@ -17,9 +17,17 @@ static int	execute_external(t_cmd *cmd, char **envp)
         exit(127);
     }
     execve(path, cmd->args, envp);
+    if (path == NULL && strchr(cmd->args[0], '/') == NULL)
+	{
+		print_error("pipex: command not found: ");
+		print_error(cmd->args[0]);
+		print_error("\n");
+        free(path);
+		exit(127);
+	}
     perror("minishell: execve failed");
     free(path);
-    exit(1);
+    exit(126);
 }
 
 static int	execute_builtin_parent(t_cmd *cmd, char ***envp)
