@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maalonso <maalonso@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 15:27:08 by dcerezo-          #+#    #+#             */
-/*   Updated: 2026/03/17 02:48:14 by maalonso         ###   ########.fr       */
+/*   Updated: 2026/03/17 11:39:30 by dcerezo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static char	*build_prompt(void)
 	if (!cwd)
 		return (NULL);
 	prefix = const_ft_strjoin("\001\033[32m\002minishell\001\033[90m\002@"
-			"\001\033[38;5;31m\002", cwd);
+			"\001\033[38;5;31m\002",
+			cwd);
 	free(cwd);
 	if (!prefix)
 		return (NULL);
@@ -93,10 +94,10 @@ void	shell_welcome(void)
  */
 int	process_input(char *input, char ***envp, int last_exit_status)
 {
-	t_token	*tokens;
-	t_cmd	*cmds;
-	t_env_ctx ctx;
-	int		exit_status;
+	t_token		*tokens;
+	t_cmd		*cmds;
+	t_env_ctx	ctx;
+	int			exit_status;
 
 	if (!input || !*input)
 		return (last_exit_status);
