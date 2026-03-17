@@ -1,19 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/16 19:21:32 by dcerezo-          #+#    #+#             */
-/*   Updated: 2026/03/16 19:21:33 by dcerezo-         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-static char	*expand_heredoc_line(const char *line, char **envp,
-		int last_exit_status)
+static char	*expand_heredoc_line(const char *line, char **envp, int last_exit_status)
 {
 	char	*result;
 	char	*value;
@@ -38,8 +25,7 @@ static char	*expand_heredoc_line(const char *line, char **envp,
 	return (result);
 }
 
-char	*read_heredoc(char *delimiter, int has_cmd, char **envp,
-		int last_exit_status)
+char	*read_heredoc(char *delimiter, int has_cmd, char **envp, int last_exit_status)
 {
 	int		fd;
 	char	*prompt;
@@ -68,27 +54,57 @@ char	*read_heredoc(char *delimiter, int has_cmd, char **envp,
  * Called in child process before execve
  * Returns: 0 on success, -1 on error
  */
-int	apply_redirections(t_redir *redirects, int has_cmd, char **envp,
-		int last_exit_status)
+int apply_redirections(t_redir *redirects, int has_cmd, char **envp, int last_exit_status)
 {
-	char	*tmp_file;
+    int fd;
+    char *tmp_file;
 
-	while (redirects)
-	{
-		if (redirects->type == REDIR_IN)
-			redd_in(redirects);
-		else if (redirects->type == REDIR_OUT)
-			redd_out(redirects);
-		else if (redirects->type == REDIR_APPEND)
-			redd_append(redirects);
-		else if (redirects->type == REDIR_HEREDOC)
-		{
-			tmp_file = read_heredoc(redirects->file, has_cmd, envp,
-					last_exit_status);
-			if (has_cmd == 1)
-				redd_heredoc(tmp_file);
-		}
-		redirects = redirects->next;
-	}
-	return (0);
+    while (redirects)
+    {
+        if (redirects->type == REDIR_IN)
+        {
+            fd = open(redirects->file, O_RDONLY);
+            if (fd == -1)
+                return (perror("minishell: input"), -1);
+            dup2(fd, 0);
+            close(fd);
+        }
+        else if (redirects->type == REDIR_OUT)
+        {
+            fd = open(redirects->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if (fd == -1)
+                return (perror("minishell: output"), -1);
+            dup2(fd, 1);
+            close(fd);
+        }
+        else if (redirects->type == REDIR_APPEND)
+        {
+            fd = open(redirects->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+            if (fd == -1)
+                return (perror("minishell: append"), -1);
+            dup2(fd, 1);
+            close(fd);
+        }
+        else if (redirects->type == REDIR_HEREDOC)
+        {
+            tmp_file = read_heredoc(redirects->file, has_cmd, envp, last_exit_status);
+            if (has_cmd == 1)
+            {
+                if (!tmp_file)
+                    return (-1);
+                fd = open(tmp_file, O_RDONLY);
+                if (fd == -1)
+                {
+                    free(tmp_file);
+                    return (perror("minishell: heredoc"), -1);
+                }
+                dup2(fd, 0);
+                close(fd);
+                unlink(tmp_file);
+                free(tmp_file);
+            }
+        }
+        redirects = redirects->next;
+    }
+    return (0);
 }

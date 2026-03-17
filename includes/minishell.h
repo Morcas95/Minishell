@@ -108,13 +108,7 @@ t_redir_type		token_to_redir_type(t_token_type type);
 
 int					execute(t_cmd *cmd, char ***envp);
 int					execute_simple(t_cmd *cmd, char ***envp);
-int					execute_external(t_cmd *cmd, char **envp);
 int					execute_pipeline(t_cmd *cmd, char ***envp);
-int					executor_temp(t_cmd *temp, char ***envp);
-int					executor_cmd(t_cmd *cmd, int num_cmds, int *pipe_fd,
-						char ***envp);
-int					executor_cmd_pid_0(int prev_fd, t_cmd *cmd, int *pipe_fd,
-						char ***envp);
 
 //* Builtins
 
@@ -152,10 +146,6 @@ char				*append_char(char *result, char c);
 char				*append_str(char *result, char *value);
 char				*resolve_var(const char *line, int *i, char **envp,
 						int last_exit_status);
-int					redd_in(t_redir *redirects);
-int					redd_append(t_redir *redirects);
-int					redd_out(t_redir *redirects);
-int					redd_heredoc(char *tmp_file);
 
 //* Memory
 
