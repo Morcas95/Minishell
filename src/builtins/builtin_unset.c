@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maalonso <maalonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:19:09 by dcerezo-          #+#    #+#             */
-/*   Updated: 2026/03/16 17:19:10 by dcerezo-         ###   ########.fr       */
+/*   Updated: 2026/03/17 02:14:06 by maalonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	env_size(char **envp)
-{
-	int	count;
-
-	count = 0;
-	while (envp && envp[count])
-		count++;
-	return (count);
-}
 
 static int	is_valid_identifier(const char *name)
 {
