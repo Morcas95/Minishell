@@ -8,7 +8,10 @@ static int	append_env_var(const char *s, int *i, char **result, char **envp,
 	char	*value;
 
 	if (s[*i] == '?')
-		return ((*i)++, append_exit_status(result, last_exit_status));
+	{
+		(*i)++;
+		return (append_exit_status(result, last_exit_status));
+	}
 	if (ft_isdigit(s[*i]))
 	{
 		(*i)++;
