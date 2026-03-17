@@ -1,15 +1,5 @@
 #include "minishell.h"
 
-static int	append_token(t_token **head, t_token **current, t_token *new_token)
-{
-	if (!*head)
-		*head = new_token;
-	else
-		(*current)->next = new_token;
-	*current = new_token;
-	return (1);
-}
-
 /*
  * Convierte un string en una lista de tokens
  * Retorna: la lista de tokens, o NULL si hay error
@@ -36,8 +26,16 @@ t_token	*lexer(char *input, char **envp, int last_exit_status)
 			break ;
 		new_token = extract_token(input, &i, envp, last_exit_status);
 		if (!new_token)
-			return (free_tokens(head), NULL);
-		append_token(&head, &current, new_token);
+		{
+			free_tokens(head);
+			return (NULL);
+		}
+
+		if (!head)
+			head = new_token;
+		else
+			current->next = new_token;
+		current = new_token;
 	}
 	return (head);
 }
