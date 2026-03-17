@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maalonso <maalonso@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 15:27:08 by dcerezo-          #+#    #+#             */
-/*   Updated: 2026/03/16 17:40:51 by dcerezo-         ###   ########.fr       */
+/*   Updated: 2026/03/17 02:48:14 by maalonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,14 @@ int	process_input(char *input, char ***envp, int last_exit_status)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
+	t_env_ctx ctx;
 	int		exit_status;
 
 	if (!input || !*input)
 		return (last_exit_status);
-	tokens = lexer(input, *envp, last_exit_status);
+	ctx.envp = *envp;
+	ctx.last_exit_status = last_exit_status;
+	tokens = lexer(input, &ctx);
 	if (!tokens)
 		return (last_exit_status);
 	cmds = parser(tokens);

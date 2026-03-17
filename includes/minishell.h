@@ -65,6 +65,12 @@ typedef struct s_cmd
 	struct s_cmd *next; // Next command (for pipes)
 }					t_cmd;
 
+typedef struct s_env_ctx
+{
+	char			**envp;
+	int				last_exit_status;
+}					t_env_ctx;
+
 //* Signals
 
 void				handle_sigint(int sig);
@@ -72,17 +78,19 @@ void				setup_signals(void);
 
 //* Lexer
 
-t_token				*lexer(char *input, char **envp, int last_exit_status);
-t_token				*extract_token(char *str, int *i, char **envp,
-						int last_exit_status);
-char				*extract_word(char *str, int *i, char **envp,
-						int last_exit_status);
+t_token				*lexer(char *input, t_env_ctx *ctx);
+t_token				*extract_token(char *str, int *i, t_env_ctx *ctx);
+char				*extract_word(char *str, int *i, t_env_ctx *ctx);
 int					extract_plain(const char *s, int *i, char **out,
-						char **envp, int last_exit_status);
+						t_env_ctx *ctx);
 int					extract_quoted(const char *s, int *i, char **out,
-						char **envp, int last_exit_status);
+						t_env_ctx *ctx);
 int					skip_spaces(char *str, int i);
 int					is_operator(char c);
+int					append_env_var(const char *s, int *i, char **result,
+						t_env_ctx *ctx);
+int					append_exit_status(char **result, int last_exit_status);
+int					append_text(char **result, const char *text);
 
 //* Parser
 
