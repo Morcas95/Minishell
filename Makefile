@@ -21,10 +21,12 @@ SRC =	./src/main.c \
 		./src/builtins/builtin_unset.c \
 		./src/builtins/builtin_exit.c \
 		./src/executor/executor.c \
+		./src/executor/executor_utils.c \
 		./src/executor/path.c \
 		./src/executor/path_utils.c \
 		./src/executor/redirections.c \
 		./src/executor/redirections_utils.c \
+		./src/executor/redirections_second_utils.c \
 		./src/memory/free.c \
 		./sre/errors/errors.c
 

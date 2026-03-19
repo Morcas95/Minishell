@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maalonso <maalonso@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/19 12:48:50 by maalonso          #+#    #+#             */
+/*   Updated: 2026/03/19 13:12:16 by maalonso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -20,12 +32,12 @@ extern int			g_signal;
 
 typedef enum e_token_type
 {
-	TOKEN_WORD,         // Normal Word
-	TOKEN_PIPE,         // |
-	TOKEN_REDIR_IN,     // <
-	TOKEN_REDIR_OUT,    // >
-	TOKEN_REDIR_APPEND, // >>
-	TOKEN_HEREDOC       // <<
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_REDIR_APPEND,
+	TOKEN_HEREDOC
 }					t_token_type;
 
 //* Tokens Structure
@@ -41,10 +53,10 @@ typedef struct s_token
 
 typedef enum e_redir_type
 {
-	REDIR_IN,     // <
-	REDIR_OUT,    // >
-	REDIR_APPEND, // >>
-	REDIR_HEREDOC // <<
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC
 }					t_redir_type;
 
 //* Redirection structure
@@ -52,7 +64,7 @@ typedef enum e_redir_type
 typedef struct s_redir
 {
 	t_redir_type	type;
-	char *file; // Filename for redirection
+	char			*file;
 	struct s_redir	*next;
 }					t_redir;
 
@@ -60,9 +72,9 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
-	char **args;        // Array of arguments [cmd, arg1, arg2, NULL]
-	t_redir *redirects; // List of redirections
-	struct s_cmd *next; // Next command (for pipes)
+	char			**args;
+	t_redir			*redirects;
+	struct s_cmd	*next;
 }					t_cmd;
 
 typedef struct s_env_ctx
@@ -79,7 +91,7 @@ void				setup_signals(void);
 //* Lexer
 
 t_token				*lexer(char *input, t_env_ctx *ctx);
-t_token				*extract_token(char *str, int *i, t_env_ctx *ctx);
+t_token				*extract_token(char *str, int *index, t_env_ctx *ctx);
 char				*extract_word(char *str, int *i, t_env_ctx *ctx);
 int					extract_plain(const char *s, int *i, char **out,
 						t_env_ctx *ctx);
@@ -109,6 +121,14 @@ t_redir_type		token_to_redir_type(t_token_type type);
 int					execute(t_cmd *cmd, char ***envp);
 int					execute_simple(t_cmd *cmd, char ***envp);
 int					execute_pipeline(t_cmd *cmd, char ***envp);
+int					execute_external(t_cmd *cmd, char **envp);
+void				resolve_heredocs(t_cmd *cmd, char **envp);
+void				child_pipeline(t_cmd *cmd, int prev_fd, int *pipe_fd,
+						char ***envp);
+int					wait_all(int num_cmds);
+int					fork_and_pipe(t_cmd *cmd, int *pipe_fd, int *prev_fd,
+						char ***envp);
+int					get_exit_status(int status);
 
 //* Builtins
 
@@ -146,6 +166,12 @@ char				*append_char(char *result, char c);
 char				*append_str(char *result, char *value);
 char				*resolve_var(const char *line, int *i, char **envp,
 						int last_exit_status);
+int					apply_redir_in(const char *file);
+int					apply_one_redir(t_redir *r, int has_cmd, char **envp,
+						int last_exit_status);
+int					apply_heredoc(t_redir *r, int has_cmd, char **envp,
+						int last_exit_status);
+int					apply_redir_out(const char *file, int flags);
 
 //* Memory
 
@@ -168,5 +194,6 @@ int					env_size(char **envp);
 //* Errors
 
 int					print_error(const char *str);
+void				print_cmd_error(const char *cmd, const char *msg);
 
 #endif

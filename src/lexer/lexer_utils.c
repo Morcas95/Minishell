@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maalonso <maalonso@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/19 11:11:36 by maalonso          #+#    #+#             */
+/*   Updated: 2026/03/19 13:04:13 by maalonso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	skip_spaces(char *str, int i)
@@ -19,19 +31,21 @@ static void	extract_redir(char *str, int *i, t_token *token)
 	char	op;
 
 	op = str[*i];
-	if (str[*i + 1] == op)
-	{
-		token->type = (op == '<') ? TOKEN_HEREDOC : TOKEN_REDIR_APPEND;
-		(*i) += 2;
-	}
+	if (str[*i + 1] == op && op == '<')
+		token->type = TOKEN_HEREDOC;
+	else if (str[*i + 1] == op && op == '>')
+		token->type = TOKEN_REDIR_APPEND;
+	else if (op == '<')
+		token->type = TOKEN_REDIR_IN;
 	else
-	{
-		token->type = (op == '<') ? TOKEN_REDIR_IN : TOKEN_REDIR_OUT;
+		token->type = TOKEN_REDIR_OUT;
+	if (str[*i + 1] == op)
+		(*i) += 2;
+	else
 		(*i)++;
-	}
 }
 
-t_token	*extract_token(char *str, int *i, t_env_ctx *ctx)
+t_token	*extract_token(char *str, int *index, t_env_ctx *ctx)
 {
 	t_token	*token;
 
@@ -40,17 +54,17 @@ t_token	*extract_token(char *str, int *i, t_env_ctx *ctx)
 		return (NULL);
 	token->next = NULL;
 	token->value = NULL;
-	if (str[*i] == '|')
+	if (str[*index] == '|')
 	{
 		token->type = TOKEN_PIPE;
-		(*i)++;
+		(*index)++;
 	}
-	else if (str[*i] == '<' || str[*i] == '>')
-		extract_redir(str, i, token);
+	else if (str[*index] == '<' || str[*index] == '>')
+		extract_redir(str, index, token);
 	else
 	{
 		token->type = TOKEN_WORD;
-		token->value = extract_word(str, i, ctx);
+		token->value = extract_word(str, index, ctx);
 		if (!token->value)
 			return (free(token), NULL);
 	}

@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maalonso <maalonso@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/19 11:24:32 by maalonso          #+#    #+#             */
+/*   Updated: 2026/03/19 12:54:45 by maalonso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static char	*expand_heredoc_line(const char *line, char **envp, int last_exit_status)
+static char	*expand_heredoc_line(const char *line, char **envp,
+		int last_exit_status)
 {
 	char	*result;
 	char	*value;
@@ -25,7 +38,8 @@ static char	*expand_heredoc_line(const char *line, char **envp, int last_exit_st
 	return (result);
 }
 
-char	*read_heredoc(char *delimiter, int has_cmd, char **envp, int last_exit_status)
+char	*read_heredoc(char *delimiter, int has_cmd, char **envp,
+		int last_exit_status)
 {
 	int		fd;
 	char	*prompt;
@@ -49,62 +63,14 @@ char	*read_heredoc(char *delimiter, int has_cmd, char **envp, int last_exit_stat
 	}
 }
 
-/*
- * Apply all redirections from command
- * Called in child process before execve
- * Returns: 0 on success, -1 on error
- */
-int apply_redirections(t_redir *redirects, int has_cmd, char **envp, int last_exit_status)
+int	apply_redirections(t_redir *redirects, int has_cmd, char **envp,
+		int last_exit_status)
 {
-    int fd;
-    char *tmp_file;
-
-    while (redirects)
-    {
-        if (redirects->type == REDIR_IN)
-        {
-            fd = open(redirects->file, O_RDONLY);
-            if (fd == -1)
-                return (perror("minishell: input"), -1);
-            dup2(fd, 0);
-            close(fd);
-        }
-        else if (redirects->type == REDIR_OUT)
-        {
-            fd = open(redirects->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-            if (fd == -1)
-                return (perror("minishell: output"), -1);
-            dup2(fd, 1);
-            close(fd);
-        }
-        else if (redirects->type == REDIR_APPEND)
-        {
-            fd = open(redirects->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-            if (fd == -1)
-                return (perror("minishell: append"), -1);
-            dup2(fd, 1);
-            close(fd);
-        }
-        else if (redirects->type == REDIR_HEREDOC)
-        {
-            tmp_file = read_heredoc(redirects->file, has_cmd, envp, last_exit_status);
-            if (has_cmd == 1)
-            {
-                if (!tmp_file)
-                    return (-1);
-                fd = open(tmp_file, O_RDONLY);
-                if (fd == -1)
-                {
-                    free(tmp_file);
-                    return (perror("minishell: heredoc"), -1);
-                }
-                dup2(fd, 0);
-                close(fd);
-                unlink(tmp_file);
-                free(tmp_file);
-            }
-        }
-        redirects = redirects->next;
-    }
-    return (0);
+	while (redirects)
+	{
+		if (apply_one_redir(redirects, has_cmd, envp, last_exit_status) < 0)
+			return (-1);
+		redirects = redirects->next;
+	}
+	return (0);
 }

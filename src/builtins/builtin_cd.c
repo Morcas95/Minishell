@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maalonso <maalonso@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:17:32 by dcerezo-          #+#    #+#             */
-/*   Updated: 2026/03/16 17:33:08 by dcerezo-         ###   ########.fr       */
+/*   Updated: 2026/03/19 12:19:38 by maalonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,46 +53,47 @@ static int	set_env_pair(char ***envp, const char *name, const char *value)
 	return (1);
 }
 
-int	cd_target(char **args, char *target, char ***envp, const char *home)
+static char	*get_target(char **args, char **envp)
 {
-	if (args[1] && args[2])
-		return (ft_putendl_fd("minishell: cd: too many arguments",
-				STDERR_FILENO), 1);
+	const char	*home;
+
 	if (args[1])
-		target = args[1];
-	else
-	{
-		home = get_env_value(*envp, "HOME");
-		if (!home)
-			return (ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO),
-				1);
-		target = (char *)home;
-	}
+		return (args[1]);
+	home = get_env_value(envp, "HOME");
+	if (!home)
+		return (ft_putendl_fd("minishell: cd: HOME not set", STDERR_FILENO),
+			NULL);
+	return ((char *)home);
+}
+
+static int	update_pwd(char **old_pwd, char ***envp)
+{
+	char	*new_pwd;
+
+	new_pwd = getcwd(NULL, 0);
+	if (*old_pwd)
+		set_env_pair(envp, "OLDPWD", *old_pwd);
+	if (new_pwd)
+		set_env_pair(envp, "PWD", new_pwd);
+	free(new_pwd);
 	return (0);
 }
 
 int	builtin_cd(char **args, char ***envp)
 {
-	char		*old_pwd;
-	char		*target;
-	char		*new_pwd;
-	const char	*home;
+	char	*old_pwd;
+	char	*target;
 
-	target = NULL;
-	cd_target(args, target, envp, home);
+	if (args[1] && args[2])
+		return (ft_putendl_fd("minishell: cd: too many arguments",
+				STDERR_FILENO), 1);
+	target = get_target(args, *envp);
+	if (!target)
+		return (1);
 	old_pwd = getcwd(NULL, 0);
 	if (chdir(target) != 0)
-	{
-		perror("minishell: cd");
-		free(old_pwd);
-		return (1);
-	}
-	new_pwd = getcwd(NULL, 0);
-	if (old_pwd)
-		set_env_pair(envp, "OLDPWD", old_pwd);
-	if (new_pwd)
-		set_env_pair(envp, "PWD", new_pwd);
+		return (perror("minishell: cd"), free(old_pwd), 1);
+	update_pwd(&old_pwd, envp);
 	free(old_pwd);
-	free(new_pwd);
 	return (0);
 }

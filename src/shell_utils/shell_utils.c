@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maalonso <maalonso@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 15:27:08 by dcerezo-          #+#    #+#             */
-/*   Updated: 2026/03/17 11:39:30 by dcerezo-         ###   ########.fr       */
+/*   Updated: 2026/03/19 13:19:53 by maalonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,6 @@ void	shell_welcome(void)
 	}
 }
 
-/*
- * Process the input line
- * Tokenizes and prints tokens for debugging
- */
 int	process_input(char *input, char ***envp, int last_exit_status)
 {
 	t_token		*tokens;

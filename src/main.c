@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maalonso <maalonso@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:11:51 by dcerezo-          #+#    #+#             */
-/*   Updated: 2026/03/16 17:12:08 by dcerezo-         ###   ########.fr       */
+/*   Updated: 2026/03/19 13:17:01 by maalonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 		return (perror("minishell: malloc"), 1);
 	last_exit_status = 0;
 	setup_signals();
-	//shell_welcome();
+	shell_welcome();
 	shell_execution(shell_env, last_exit_status);
 	free_envp_copy(shell_env);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maalonso <maalonso@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:33:57 by dcerezo-          #+#    #+#             */
-/*   Updated: 2026/03/16 17:34:10 by dcerezo-         ###   ########.fr       */
+/*   Updated: 2026/03/19 12:33:29 by maalonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,11 @@ int	print_error(const char *str)
 		i++;
 	}
 	return (0);
+}
+
+void	print_cmd_error(const char *cmd, const char *msg)
+{
+	print_error("minishell: ");
+	print_error(cmd);
+	print_error(msg);
 }

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dcerezo- <dcerezo-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maalonso <maalonso@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 17:53:40 by dcerezo-          #+#    #+#             */
-/*   Updated: 2026/03/16 17:16:19 by dcerezo-         ###   ########.fr       */
+/*   Updated: 2026/03/19 13:20:41 by maalonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// Helper: free NULL-terminated array of strings
 
 void	free_string_array(char **arr)
 {
@@ -29,8 +27,6 @@ void	free_string_array(char **arr)
 	free(arr);
 }
 
-// Free tokens list
-
 void	free_tokens(t_token *tokens)
 {
 	t_token	*tmp;
@@ -45,8 +41,6 @@ void	free_tokens(t_token *tokens)
 	}
 }
 
-// Free redirections list
-
 void	free_redir_list(t_redir *redir)
 {
 	t_redir	*tmp;
@@ -60,8 +54,6 @@ void	free_redir_list(t_redir *redir)
 		redir = tmp;
 	}
 }
-
-// Free command list
 
 void	free_cmd_list(t_cmd *cmd)
 {
