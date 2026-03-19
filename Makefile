@@ -63,7 +63,7 @@ $(NAME): $(LIBFT) $(OBJ)
 	@echo "----------------------------------------$(RESET)"
 
 $(LIBFT):
-	@$(MAKE) --no-print-directory -C ./libft
+	@$(MAKE) $(CFLAGS) --no-print-directory -C ./libft
 
 
 $(OBJ_DIR)/%.o: %.c
